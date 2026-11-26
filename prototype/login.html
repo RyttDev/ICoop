@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Masuk - ICOOP</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: radial-gradient(circle, #eef7f4 0%, #d8ece5 100%);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-center items-center font-sans p-4">
+
+    <!-- Logo ICOOP -->
+    <div class="flex items-center space-x-2 mb-6">
+        <div class="bg-[#0b7a66] text-white font-bold text-xs px-2 py-1 rounded flex items-center justify-center">
+            i
+        </div>
+        <span class="text-[#0b7a66] font-bold text-xl tracking-wider">ICOOP</span>
+    </div>
+
+    <!-- Kad Log Masuk -->
+    <div class="bg-white rounded-lg shadow-xl p-8 w-full max-w-sm">
+        <p class="text-[10px] font-bold text-gray-400 tracking-wider uppercase mb-1">Selamat Kembali</p>
+        <h1 class="text-2xl font-bold text-gray-800 mb-1">Log masuk</h1>
+        <p class="text-xs text-gray-400 mb-6">Masuk untuk mengurus operasi koperasi anda.</p>
+
+        <form action="#" method="POST">
+            <!-- E-mel -->
+            <div class="mb-4">
+                <label for="email" class="block text-xs text-gray-500 mb-1">E-mel</label>
+                <input type="email" id="email" name="email" required
+                    class="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-[#0b7a66] transition">
+            </div>
+
+            <!-- Kata Laluan -->
+            <div class="mb-4">
+                <label for="password" class="block text-xs text-gray-500 mb-1">Kata Laluan</label>
+                <input type="password" id="password" name="password" required
+                    class="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-[#0b7a66] transition">
+            </div>
+
+            <!-- Ingat Saya -->
+            <div class="flex items-center mb-6">
+                <input type="checkbox" id="remember" name="remember" class="w-3.5 h-3.5 text-[#0b7a66] border-gray-300 rounded focus:ring-0">
+                <label for="remember" class="ml-2 text-xs text-gray-500">Ingat saya</label>
+            </div>
+
+            <!-- Butang Log Masuk -->
+            <button type="submit"
+                class="w-full bg-[#0b7a66] hover:bg-[#085f50] text-white text-xs font-semibold py-2.5 rounded transition duration-200">
+                Log masuk
+            </button>
+        </form>
+
+        <!-- Pautan Daftar -->
+        <div class="mt-6 text-center">
+            <p class="text-xs text-gray-400">
+                Belum mempunyai akaun? <a href="#" class="text-[#0b7a66] font-semibold hover:underline">Daftar sekarang</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Teks Hak Cipta / Footer -->
+    <p class="text-[11px] text-gray-400 mt-6">Sistem Pengurusan Koperasi ICOOP</p>
+
+</body>
+</html>

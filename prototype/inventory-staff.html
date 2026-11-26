@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="ms" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iCOOP - Pengurusan Inventori (Staff)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            DEFAULT: '#0b7a66',
+                            hover: '#085f50',
+                            light: '#e6f4f0',
+                            dark: '#064e41'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 4px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #334155;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background-color: #f1f5f9;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-[#f8fafa] dark:bg-slate-900 text-gray-700 dark:text-slate-200 flex min-h-screen antialiased transition-colors duration-300">
+
+    <!-- SIDEBAR (Hanya Papan Pemuka, Inventori, Laporan, & Profil) -->
+    <aside class="w-64 bg-white dark:bg-slate-800 border-r border-gray-100 dark:border-slate-700/60 flex flex-col justify-between p-4 min-h-screen shrink-0 sticky top-0 h-screen overflow-y-auto custom-scrollbar z-20 transition-colors duration-300">
+        <div>
+            <!-- Logo ICOOP -->
+            <div class="flex items-center space-x-2.5 px-3 py-2 mb-6">
+                <div class="bg-brand text-white font-extrabold text-sm w-7 h-7 rounded-lg flex items-center justify-center shadow-sm">
+                    i
+                </div>
+                <span class="text-brand font-extrabold text-2xl tracking-tight">iCOOP</span>
+            </div>
+
+            <!-- Menu Navigation -->
+            <div class="text-[11px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-wider px-3 mb-3">Menu UTAMA</div>
+            <nav class="space-y-1">
+                <a href="#" class="flex items-center space-x-3 px-3 py-2.5 text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-700/50 hover:text-gray-900 dark:hover:text-white font-medium rounded-lg text-xs transition">
+                    <i data-lucide="layout-grid" class="w-4 h-4 text-gray-400 dark:text-slate-400"></i>
+                    <span>Papan Pemuka</span>
+                </a>
+                
+                <a href="#" class="flex items-center space-x-3 px-3 py-2.5 bg-brand-light dark:bg-brand/20 text-brand dark:text-emerald-400 font-semibold rounded-lg text-xs">
+                    <i data-lucide="boxes" class="w-4 h-4 text-brand dark:text-emerald-400"></i>
+                    <span>Inventori</span>
+                </a>
+
+                <a href="#" class="flex items-center space-x-3 px-3 py-2.5 text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-700/50 hover:text-gray-900 dark:hover:text-white font-medium rounded-lg text-xs transition">
+                    <i data-lucide="clipboard-list" class="w-4 h-4 text-gray-400 dark:text-slate-400"></i>
+                    <span>Laporan</span>
+                </a>
+
+                <a href="#" class="flex items-center space-x-3 px-3 py-2.5 text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-700/50 hover:text-gray-900 dark:hover:text-white font-medium rounded-lg text-xs transition">
+                    <i data-lucide="settings" class="w-4 h-4 text-gray-400 dark:text-slate-400"></i>
+                    <span>Profil & Tetapan</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Bottom Help Box & Logout -->
+        <div class="space-y-3 pt-4 border-t border-gray-100 dark:border-slate-700/60">
+            <div class="bg-brand-light dark:bg-slate-700/50 p-3.5 rounded-xl flex items-start space-x-3">
+                <div class="bg-[#c8e8df] dark:bg-brand/30 text-brand dark:text-emerald-300 rounded-full p-1 mt-0.5 shrink-0">
+                    <i data-lucide="help-circle" class="w-4 h-4"></i>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-gray-800 dark:text-slate-100">ICOOP sedia membantu</h4>
+                    <p class="text-[10px] text-gray-500 dark:text-slate-400 mt-0.5 leading-tight">Semua rekod disimpan dalam Sistem</p>
+                </div>
+            </div>
+
+            <button class="w-full flex items-center justify-center space-x-2 px-3 py-2 border border-gray-200 dark:border-slate-700 text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-700 rounded-lg text-xs font-semibold transition">
+                <i data-lucide="log-out" class="w-3.5 h-3.5 text-gray-500 dark:text-slate-400"></i>
+                <span>Log keluar</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="flex-1 flex flex-col min-w-0">
+
+        <!-- Top Header Bar -->
+        <header class="h-16 bg-white dark:bg-slate-800 border-b border-gray-100 dark:border-slate-700/60 flex items-center justify-between px-8 shrink-0 sticky top-0 z-10 transition-colors duration-300">
+            <div class="text-xs font-medium text-gray-500 dark:text-slate-400">
+                Sistem Pengurusan Koperasi - Inventori
+            </div>
+            
+            <div class="flex items-center space-x-5">
+
+                <!-- Theme Toggle Switch -->
+                <button id="themeToggleBtn" onclick="toggleTheme()" aria-label="Tukar Tema" class="relative inline-flex items-center h-7 w-13 rounded-full bg-gray-200 dark:bg-slate-700 p-1 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-brand">
+                    <span id="themeToggleCircle" class="inline-block w-5 h-5 rounded-full bg-white dark:bg-slate-200 shadow-md transform transition-transform duration-300 translate-x-0 dark:translate-x-6 flex items-center justify-center">
+                        <i id="themeIconSun" data-lucide="sun" class="w-3 h-3 text-amber-500 block dark:hidden"></i>
+                        <i id="themeIconMoon" data-lucide="moon" class="w-3 h-3 text-slate-700 hidden dark:block"></i>
+                    </span>
+                </button>
+
+                <!-- Profile Badge -->
+                <div class="flex items-center space-x-3 border-l border-gray-100 dark:border-slate-700 pl-4">
+                    <div class="w-8 h-8 rounded-full bg-[#d6b18c] text-white flex items-center justify-center font-bold text-xs shadow-sm">
+                        ST
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Body -->
+        <main class="p-8 space-y-6">
+
+            <!-- Title & Date -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">Pengurusan Inventori</h1>
+                    <p id="currentDateText" class="text-xs text-gray-400 dark:text-slate-400 mt-0.5">Ahad, 12 Julai 2026</p>
+                </div>
+            </div>
+
+            <!-- Summary KPI Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-gray-100 dark:border-slate-700/60 shadow-sm flex items-center justify-between transition-colors">
+                    <div>
+                        <p class="text-[11px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-wider">JUMLAH ITEM INVENTORI</p>
+                        <h2 id="totalSkuCount" class="text-2xl font-extrabold text-blue-600 dark:text-blue-400 mt-1">0</h2>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
+                        <i data-lucide="box" class="w-5 h-5"></i>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-gray-100 dark:border-slate-700/60 shadow-sm flex items-center justify-between transition-colors">
+                    <div>
+                        <p class="text-[11px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-wider">INVENTORI RENDAH</p>
+                        <h2 id="lowStockCount" class="text-2xl font-extrabold text-amber-500 dark:text-amber-400 mt-1">0 item</h2>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
+                        <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-gray-100 dark:border-slate-700/60 shadow-sm flex items-center justify-between transition-colors">
+                    <div>
+                        <p class="text-[11px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-wider">INVENTORI HABIS</p>
+                        <h2 id="outOfStockCount" class="text-2xl font-extrabold text-rose-600 dark:text-rose-400 mt-1">0 item</h2>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0">
+                        <i data-lucide="package-x" class="w-5 h-5"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inventory Table Container -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700/60 shadow-sm overflow-hidden transition-colors">
+                
+                <!-- Table Header Bar -->
+                <div class="p-5 border-b border-gray-100 dark:border-slate-700/60 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="font-bold text-gray-900 dark:text-white text-base">Senarai Barangan</h3>
+                        <p class="text-xs text-gray-400 dark:text-slate-400 mt-0.5">Senarai keseluruhan barangan</p>
+                    </div>
+                    
+                    <!-- Search Bar di Hujung Jadual -->
+                    <div class="relative w-64 shrink-0">
+                        <i data-lucide="search" class="w-4 h-4 text-gray-400 dark:text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                        <input type="text" id="searchInput" onkeyup="filterInventory()" placeholder="Cari SKU atau Nama..." class="w-full pl-9 pr-3 py-2 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-lg text-xs text-gray-700 dark:text-slate-200 focus:outline-none focus:border-brand transition">
+                    </div>
+                </div>
+
+                <!-- Table View -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gray-50/70 dark:bg-slate-900/50 border-b border-gray-100 dark:border-slate-700/60 text-[11px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-wider">
+                                <th class="py-3.5 px-6">SKU</th>
+                                <th class="py-3.5 px-6">NAMA BARANGAN</th>
+                                <th class="py-3.5 px-6">KATEGORI</th>
+                                <th class="py-3.5 px-6">KUANTITI INVENTORI</th>
+                                <th class="py-3.5 px-6">MIN. STOK</th>
+                                <th class="py-3.5 px-6">HARGA SEUNIT</th>
+                                <th class="py-3.5 px-6">STATUS</th>
+                                <th class="py-3.5 px-6 text-right">KEMASKINI STOK</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventoryTableBody" class="divide-y divide-gray-100 dark:divide-slate-700/60 text-xs">
+                            <!-- Dynamic Content Rendered via JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Table Empty State -->
+                <div id="emptyState" class="hidden p-12 text-center">
+                    <div class="w-12 h-12 rounded-full bg-gray-100 dark:bg-slate-700 text-gray-400 dark:text-slate-300 flex items-center justify-center mx-auto mb-3">
+                        <i data-lucide="package-search" class="w-6 h-6"></i>
+                    </div>
+                    <p class="text-sm font-semibold text-gray-700 dark:text-slate-200">Tiada inventori dijumpai</p>
+                    <p class="text-xs text-gray-400 dark:text-slate-400 mt-1">Sila gunakan kata kunci carian yang lain.</p>
+                </div>
+
+            </div>
+
+        </main>
+    </div>
+
+    <!-- MODAL: Transaksi Pergerakan Inventori (Stock In / Stock Out Only) -->
+    <div id="movementModal" class="fixed inset-0 bg-gray-900/40 dark:bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-xl shadow-xl w-full max-w-sm overflow-hidden transition-colors">
+            
+            <div class="px-6 py-4 border-b border-gray-100 dark:border-slate-700/60 flex items-center justify-between">
+                <h3 id="movementModalTitle" class="font-bold text-gray-900 dark:text-white text-base">Rekod Pergerakan Inventori</h3>
+                <button onclick="closeMovementModal()" class="text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-slate-200 p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 transition">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <form id="movementForm" onsubmit="handleMovementSubmit(event)" class="p-6 space-y-4">
+                <input type="hidden" id="movementIndex">
+                <input type="hidden" id="movementType">
+
+                <div class="bg-gray-50 dark:bg-slate-900/60 p-3 rounded-lg border border-gray-100 dark:border-slate-700/60">
+                    <p class="text-[11px] text-gray-400 dark:text-slate-400 font-semibold uppercase">Barangan</p>
+                    <p id="movementItemName" class="text-xs font-bold text-gray-800 dark:text-slate-100 mt-0.5">-</p>
+                    <p class="text-[11px] text-gray-500 dark:text-slate-400 mt-1">Baki Semasa: <span id="movementCurrentStock" class="font-bold text-brand dark:text-emerald-400">0</span> unit</p>
+                </div>
+
+                <div>
+                    <label id="movementQtyLabel" class="block text-xs font-semibold text-gray-600 dark:text-slate-300 mb-1">Kuantiti Masuk / Keluar</label>
+                    <input type="number" id="movementQty" required min="1" placeholder="Masukkan jumlah unit" class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-lg text-xs text-gray-800 dark:text-slate-100 focus:outline-none focus:border-brand transition">
+                </div>
+
+                <div class="pt-2 flex items-center justify-end space-x-2">
+                    <button type="button" onclick="closeMovementModal()" class="px-4 py-2 border border-gray-200 dark:border-slate-700 text-gray-600 dark:text-slate-300 rounded-lg text-xs font-semibold hover:bg-gray-50 dark:hover:bg-slate-700 transition">
+                        Batal
+                    </button>
+                    <button type="submit" id="movementSubmitBtn" class="bg-brand hover:bg-brand-hover text-white text-xs font-semibold px-4 py-2 rounded-lg transition">
+                        Kemas Kini Inventori
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let inventory = [
+            { sku: 'BRG-001', name: 'Beras Tempatan 5kg', category: 'Barang Keperluan', stock: 240, minStock: 100, price: 22.50 },
+            { sku: 'MNK-002', name: 'Minyak Masak 2L', category: 'Barang Keperluan', stock: 18, minStock: 50, price: 11.90 },
+            { sku: 'GLA-003', name: 'Gula Pasir 1kg', category: 'Barang Keperluan', stock: 94, minStock: 80, price: 3.20 },
+            { sku: 'TEP-004', name: 'Tepung Gandum 1kg', category: 'Bahan Masakan', stock: 0, minStock: 60, price: 3.80 },
+            { sku: 'KON-005', name: 'Susu Pekat Manis', category: 'Minuman', stock: 156, minStock: 70, price: 3.50 },
+            { sku: 'SAB-006', name: 'Sabun Mandi 90g', category: 'Kebersihan', stock: 310, minStock: 120, price: 1.40 }
+        ];
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                html.classList.add('light');
+                localStorage.setItem('icoop-theme', 'light');
+            } else {
+                html.classList.remove('light');
+                html.classList.add('dark');
+                localStorage.setItem('icoop-theme', 'dark');
+            }
+            lucide.createIcons();
+        }
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('icoop-theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+
+        function formatCurrentDate() {
+            const days = ['Ahad', 'Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu'];
+            const months = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];
+            const now = new Date();
+            return `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+        }
+
+        function renderTable(data = inventory) {
+            const tbody = document.getElementById('inventoryTableBody');
+            const emptyState = document.getElementById('emptyState');
+            tbody.innerHTML = '';
+
+            if (data.length === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                data.forEach((item) => {
+                    let statusBadge = '';
+                    let stockColor = '';
+
+                    if (item.stock === 0) {
+                        statusBadge = `<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800">
+                                        <i data-lucide="alert-circle" class="w-3 h-3 mr-1"></i> Habis
+                                       </span>`;
+                        stockColor = 'text-rose-600 dark:text-rose-400 font-bold';
+                    } else if (item.stock < item.minStock) {
+                        statusBadge = `<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800">
+                                        <i data-lucide="alert-triangle" class="w-3 h-3 mr-1"></i> Rendah
+                                       </span>`;
+                        stockColor = 'text-amber-600 dark:text-amber-400 font-bold';
+                    } else {
+                        statusBadge = `<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+                                        <i data-lucide="check-circle-2" class="w-3 h-3 mr-1"></i> Normal
+                                       </span>`;
+                        stockColor = 'text-emerald-600 dark:text-emerald-400 font-bold';
+                    }
+
+                    const originalIndex = inventory.indexOf(item);
+
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-gray-50/80 dark:hover:bg-slate-700/40 transition text-gray-700 dark:text-slate-200";
+                    tr.innerHTML = `
+                        <td class="py-4 px-6 text-xs font-semibold text-gray-400 dark:text-slate-400 uppercase tracking-wide">${item.sku}</td>
+                        <td class="py-4 px-6 font-bold text-gray-900 dark:text-white">${item.name}</td>
+                        <td class="py-4 px-6 text-gray-500 dark:text-slate-400">${item.category}</td>
+                        <td class="py-4 px-6 ${stockColor}">${item.stock} unit</td>
+                        <td class="py-4 px-6 text-gray-500 dark:text-slate-400">${item.minStock}</td>
+                        <td class="py-4 px-6 font-medium text-gray-800 dark:text-slate-200">RM ${parseFloat(item.price).toFixed(2)}</td>
+                        <td class="py-4 px-6">${statusBadge}</td>
+                        <td class="py-4 px-6 text-right">
+                            <div class="flex items-center justify-end space-x-1">
+                                <!-- HANYA MASUK & KELUAR STOK -->
+                                <button onclick="openMovementModal(${originalIndex}, 'in')" title="Masuk Inventori (Stock In)" class="p-1.5 text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 rounded transition font-semibold flex items-center text-[10px] px-2.5 space-x-1">
+                                    <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+                                    <span>Masuk</span>
+                                </button>
+                                <button onclick="openMovementModal(${originalIndex}, 'out')" title="Keluar Inventori (Stock Out)" class="p-1.5 text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 hover:bg-amber-100 rounded transition font-semibold flex items-center text-[10px] px-2.5 space-x-1">
+                                    <i data-lucide="minus-circle" class="w-3.5 h-3.5"></i>
+                                    <span>Keluar</span>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            updateSummaryCards();
+            lucide.createIcons();
+        }
+
+        function updateSummaryCards() {
+            const totalSku = inventory.length;
+            const lowStock = inventory.filter(i => i.stock > 0 && i.stock < i.minStock).length;
+            const outOfStock = inventory.filter(i => i.stock === 0).length;
+
+            document.getElementById('totalSkuCount').innerText = totalSku;
+            document.getElementById('lowStockCount').innerText = `${lowStock} item`;
+            document.getElementById('outOfStockCount').innerText = `${outOfStock} item`;
+        }
+
+        function filterInventory() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = inventory.filter(i => 
+                i.sku.toLowerCase().includes(query) || 
+                i.name.toLowerCase().includes(query) ||
+                i.category.toLowerCase().includes(query)
+            );
+            renderTable(filtered);
+        }
+
+        function openMovementModal(index, type) {
+            const item = inventory[index];
+            document.getElementById('movementIndex').value = index;
+            document.getElementById('movementType').value = type;
+            document.getElementById('movementItemName').innerText = `${item.sku} - ${item.name}`;
+            document.getElementById('movementCurrentStock').innerText = item.stock;
+            document.getElementById('movementQty').value = '';
+
+            const title = document.getElementById('movementModalTitle');
+            const label = document.getElementById('movementQtyLabel');
+            const submitBtn = document.getElementById('movementSubmitBtn');
+
+            if (type === 'in') {
+                title.innerText = "Masuk Inventori (Stock In)";
+                label.innerText = "Kuantiti Ditambah";
+                submitBtn.className = "bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition";
+                submitBtn.innerText = "Tambah Stok";
+            } else {
+                title.innerText = "Keluar Inventori (Stock Out)";
+                label.innerText = "Kuantiti Dikeluarkan";
+                submitBtn.className = "bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition";
+                submitBtn.innerText = "Tolak Stok";
+            }
+
+            document.getElementById('movementModal').classList.remove('hidden');
+        }
+
+        function closeMovementModal() {
+            document.getElementById('movementModal').classList.add('hidden');
+        }
+
+        function handleMovementSubmit(e) {
+            e.preventDefault();
+            const index = parseInt(document.getElementById('movementIndex').value);
+            const type = document.getElementById('movementType').value;
+            const qty = parseInt(document.getElementById('movementQty').value) || 0;
+
+            if (index >= 0 && qty > 0) {
+                if (type === 'in') {
+                    inventory[index].stock += qty;
+                } else if (type === 'out') {
+                    if (qty > inventory[index].stock) {
+                        alert('Kuantiti yang dikeluarkan melebihi baki inventori semasa!');
+                        return;
+                    }
+                    inventory[index].stock -= qty;
+                }
+            }
+
+            closeMovementModal();
+            renderTable();
+        }
+
+        window.onload = function() {
+            initTheme();
+            document.getElementById('currentDateText').innerText = formatCurrentDate();
+            renderTable();
+        };
+    </script>
+</body>
+</html>
